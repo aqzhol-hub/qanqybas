@@ -57,5 +57,4 @@ public class JWTTokenGenerator {
         final String email = getEmailFromToken(token);
         return (email.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
-
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -10,6 +10,11 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+
+import {registration} from '../../api/login';
+import {AuthContext} from '../../App';
+
+import { ToastContainer, toast } from "react-toastify";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -31,83 +36,72 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const initState = {email: "", firstname: "", lastname:"", password: ""};
+
 export default function SignUp() {
   const classes = useStyles();
+  const [user, setUser] = useState(initState);
+  const {isAuth} = useContext(AuthContext);
+
+  const handleChange = (e) => {
+    const {name, value} = e.target;
+    setUser(prev => ({...prev, [name]: value}));
+  };
+
+  const handleSubmit = async(e) =>{
+    e.preventDefault();
+    const res = await registration(user);
+    
+    if(res && res.status === 200){
+      toast.success("Registration success");
+      window.location.replace("/login");
+    }else{
+      setUser(initState);
+      toast.error("User already exists");
+    }
+  };
+
+  useEffect(() => {
+    if(isAuth){
+      // window.history.back();
+    }
+  }, [isAuth]);
 
   return (
     <Container component="main" maxWidth="xs">
+      <ToastContainer position="top-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          {/* <LockOutlinedIcon /> */}
-        </Avatar>
+        <Avatar className={classes.avatar}></Avatar>
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate>
+        <form onSubmit={handleSubmit} className={classes.form} noValidate>
           <Grid container spacing={2}>
+
             <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="fname"
-                name="firstName"
-                variant="outlined"
-                required
-                fullWidth
-                id="firstName"
-                label="First Name"
-                autoFocus
-              />
+              <TextField value={user.firstname} onChange={handleChange} autoComplete="fname" name="firstname" variant="outlined" required fullWidth id="firstName" label="First Name" autoFocus />
             </Grid>
+
             <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="lname"
-              />
+              <TextField value={user.lastname} onChange={handleChange} variant="outlined" required fullWidth id="lastname" label="Last Name" name="lastname" autoComplete="lname" />
             </Grid>
+
             <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-              />
+              <TextField value={user.email} onChange={handleChange} variant="outlined" required fullWidth id="email" label="Email Address" name="email" autoComplete="email" />
             </Grid>
+
             <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
+              <TextField value={user.password} onChange={handleChange} variant="outlined" required fullWidth name="password" label="Password" type="password" id="password" autoComplete="current-password" />
             </Grid>
+
             <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I've read license agreement"
-              />
+              <FormControlLabel control={<Checkbox value="allowExtraEmails" color="primary" />} label="I've read license agreement" />
             </Grid>
+
           </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Sign Up
-          </Button>
+          <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>Sign Up</Button>
+
           <Grid container justify="flex-end">
             <Grid item>
               <Link href="#" variant="body2">

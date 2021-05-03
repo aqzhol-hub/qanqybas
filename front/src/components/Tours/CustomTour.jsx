@@ -3,7 +3,7 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import AlbumCard from '../Cards/AlbumCard'
+import AlbumCard from '../cards/AlbumCard'
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -42,7 +42,7 @@ export default function CustomTour(){
 
             <Grid container spacing={4}>
                 {cards.map((card) => (
-                <AlbumCard card={card} md = {4}/>
+                <AlbumCard key={card} card={card} md = {4}/>
                 ))}
             </Grid>
         </React.Fragment>

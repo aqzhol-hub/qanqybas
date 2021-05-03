@@ -52,4 +52,9 @@ public class UserServiceImplementation implements UserService {
     public Users findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
+
+    @Override
+    public Users findByID(Long id) {
+        return userRepository.findByIdEquals(id);
+    }
 }

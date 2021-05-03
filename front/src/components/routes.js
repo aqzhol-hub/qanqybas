@@ -1,20 +1,25 @@
-import SignIn from './Auth/SignIn'
-import SignUp from './Auth/SignUp'
-import Album from './HomePage/Album'
-import UserProfile from './ProfilePage/Profile'
+import SignIn from './auth/SignIn'
+import SignUp from './auth/SignUp'
+import Album from './homepage/Album'
+import UserProfile from './profilepage/Profile'
+import UserSettings from './profilepage/Settings'
 
 const routes = [
     {
-        path: "/",
+        path: "/login",
         component: SignIn
     },
     {
-        path: "/up",
+        path: "/registration",
         component: SignUp
     },
     {
         path: "/index",
         component: Album
+    },
+    {
+        path: "/",
+        component: UserSettings
     },
     {
         path: "/profile",

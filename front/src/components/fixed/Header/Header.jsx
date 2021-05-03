@@ -1,11 +1,37 @@
-import {  Navbar, Nav, NavDropdown } from 'react-bootstrap';
+import React, { useContext, useEffect } from "react";
+import {  Navbar, Nav, NavDropdown, Dropdown } from 'react-bootstrap';
+import { AuthContext } from "../../../App";
+import {checkAuth} from '../../../api/login';
+
+import { BiUserCircle } from "react-icons/bi";
 
 
+const Header = () => {
+    const {cookies, removeCookie, isAuth, SetAuth} = useContext(AuthContext);
 
-const Header = ({ onSelect, activeKey, ...props }) => {
+    useEffect(() => {
+        const jwtToken = cookies.jwtToken;
+        if (jwtToken){
+            const isAuth = checkAuth(jwtToken);
+            if(isAuth){
+                SetAuth(true);
+            }else{
+                SetAuth(false);
+            }
+        }else{
+            SetAuth(false);
+        }
+    }, [cookies, SetAuth]);
+
     const navStyle = {
         background: "#0092F4"
     };
+
+    const logOut = () => {
+        removeCookie("jwtToken");
+        SetAuth(false);
+        window.location.replace("/");
+    }
 
     return (
     <Navbar style={navStyle} expand="lg">
@@ -42,12 +68,26 @@ const Header = ({ onSelect, activeKey, ...props }) => {
             </NavDropdown>
         </Nav>
         
-        <Nav>
-            <Nav.Link href="#memes">Sign in</Nav.Link>
-            <Nav.Link href="#memes">Sign up</Nav.Link>
-        </Nav>
+        {
+            isAuth === true ?
+            <Dropdown>
+                <Dropdown.Toggle><BiUserCircle /></Dropdown.Toggle>
+
+                <Dropdown.Menu alignRight={true}>
+                    <Dropdown.Item href="/profile">Profile</Dropdown.Item>
+                    <Dropdown.Item href="/settings">Settings</Dropdown.Item>
+                    <Dropdown.Item onClick={logOut}>Log out</Dropdown.Item>
+                </Dropdown.Menu>
+
+            </Dropdown>: 
+            <Nav>
+                <Nav.Link href="/login/">Sign In</Nav.Link>
+                <Nav.Link href="/registration/">Sign Up</Nav.Link>
+            </Nav>
+        }
     </Navbar.Collapse>
     </Navbar>
     );
 };
 export default Header;
+{/* <Nav.Link onClick={logOut}>Sign Out</Nav.Link> */}

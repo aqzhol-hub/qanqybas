@@ -3,11 +3,13 @@ package com.web.qangybas.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -34,14 +36,22 @@ public class Users implements UserDetails {
     @Column(name = "password")
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @DateTimeFormat(pattern="dd.MM.yyyy")
+    private Date birthDay;
+
+    @Column(name = "gender")
+    private String gender;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    City city;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Roles> roles;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles;
     }
-
     @Override
     public String getPassword() {
         return password;

@@ -2,8 +2,8 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
-import CustomTour from '../Tours/CustomTour'
-import TopTour from '../Tours/TopTours'
+import CustomTour from '../tours/CustomTour'
+import TopTour from '../tours/TopTours'
 
 const useStyles = makeStyles((theme) => ({
   cardGrid: {

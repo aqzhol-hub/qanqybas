@@ -4,22 +4,19 @@ import com.web.qangybas.dto.JwtRequest;
 import com.web.qangybas.dto.JwtResponse;
 import com.web.qangybas.entities.Users;
 import com.web.qangybas.jwt.JWTTokenGenerator;
+import com.web.qangybas.rest.user.userDTO.UserProfileResponse;
 import com.web.qangybas.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 public class JwtAuthController {
 
     @Autowired
@@ -51,22 +48,35 @@ public class JwtAuthController {
             registeredUser.setPassword("");
             return ResponseEntity.ok(registeredUser);
         }
-
         return new ResponseEntity(null, HttpStatus.BAD_REQUEST);
     }
 
+    @GetMapping(value = "/checkAuth")
+    public ResponseEntity<?> checkAuth() throws Exception{
+        UserDetails user = getCurrentUser();
+        if (user!=null){
+            return ResponseEntity.ok(200);
+        }
+        return (ResponseEntity<?>) ResponseEntity.notFound();
+    }
+
     public void authenticate(String email, String password) throws Exception{
-
         try{
-
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
-
         }catch (DisabledException e){
             throw new Exception("USER_DISABLED", e);
         }catch (BadCredentialsException e){
             throw new Exception("INVALID_CREDENTIALS", e);
         }
+    }
 
+
+    private UserDetails getCurrentUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            return (UserDetails) authentication.getPrincipal();
+        }
+        return null;
     }
 
 }

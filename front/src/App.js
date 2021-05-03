@@ -2,19 +2,19 @@ import { useCookies } from "react-cookie";
 import React, {createContext, useState} from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-import Header from './components/ConstantComponents/Header/Header'
+import Header from './components/fixed/Header/Header'
 // import Footer from './components/ConstantComponents/Footer/Footer'
 import routes from './components/routes'
 
-export const MainContext = createContext();
+export const AuthContext = createContext();
 // document.body.style.backgroundColor = "#eff0ea";
 
 function App() {
-  const [cookies, setCookie, removeCookie] = useCookies(['cookie-name']);
+  const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const [isAuth, SetAuth] = useState(false);
 
   return (
-    <MainContext.Provider value={{cookies, setCookie, removeCookie, isAuth, SetAuth}}>
+    <AuthContext.Provider value={{cookies, setCookie, removeCookie, isAuth, SetAuth}}>
       <Header />
 
       <div>
@@ -30,7 +30,7 @@ function App() {
       </div>
 
       {/* <Footer /> */}
-    </MainContext.Provider>
+    </AuthContext.Provider>
   );
 }
 
