@@ -43,6 +43,7 @@ public class JwtAuthController {
 
     @RequestMapping(value = "/registration")
     public ResponseEntity<?> registration(@RequestBody Users user) throws Exception{
+        System.out.println(userService.findByEmail(user.getEmail()));
         if (userService.findByEmail(user.getEmail()) == null){
             Users registeredUser = userService.saveUser(user);
             registeredUser.setPassword("");

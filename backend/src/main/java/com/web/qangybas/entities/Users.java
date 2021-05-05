@@ -36,7 +36,7 @@ public class Users implements UserDetails {
     @Column(name = "password")
     private String password;
 
-    @DateTimeFormat(pattern="dd.MM.yyyy")
+    @DateTimeFormat(pattern="dd/MM/yyyy")
     private Date birthDay;
 
     @Column(name = "gender")
