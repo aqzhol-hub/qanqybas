@@ -17,9 +17,13 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { RiDatabase2Fill,RiAdminFill } from "react-icons/ri";
 import {admin_router} from "./AdminRouter";
 import {Link, Route, Switch} from "react-router-dom";
-import EnhancedTable from "./country/CountryTable";
 import CountryTable from "./country/CountryTable";
 import CountryEdit from "./country/CountryEdit";
+import CityTable from './city/CItyTable'
+import CityEdit from "./city/CityEdit";
+import Input from "./place/PlaceTable";
+import PlaceTable from "./place/PlaceTable";
+import PlaceEdit from "./place/PlaceEdit";
 
 const drawerWidth = 240;
 
@@ -147,6 +151,21 @@ function ResponsiveDrawer(props) {
                     <Route path='/admin/country/:id' exact={true} strict={true}>
                         <CountryEdit />
                     </Route>
+
+                    <Route path='/admin/city' exact={true} strict={true}>
+                        <CityTable />
+                    </Route>
+                    <Route path='/admin/city/:id' exact={true} strict={true}>
+                        <CityEdit />
+                    </Route>
+
+                    <Route path='/admin/places' exact={true} strict={true}>
+                        <PlaceTable />
+                    </Route>
+                    <Route path='/admin/places/:id' exact={true} strict={true}>
+                        <PlaceEdit />
+                    </Route>
+
                 </Switch>
             </main>
         </div>

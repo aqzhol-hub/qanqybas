@@ -17,11 +17,6 @@ export const admin_router = [
         component: MdIcon.MdPublic
     },
     {
-        name: "Networks",
-        link: "/admin/networks",
-        component: MdIcon.MdLink
-    },
-    {
         name: "Pictures",
         link: "/admin/pictures",
         component: MdIcon.MdImage
@@ -40,16 +35,6 @@ export const admin_router = [
         name: "Roles",
         link: "/admin/roles",
         component: MdIcon.MdErrorOutline
-    },
-    {
-        name: "Routes",
-        link: "/admin/route",
-        component: MdIcon.MdMyLocation
-    },
-    {
-        name: "Tags",
-        link: "/admin/tags",
-        component: MdIcon.MdExplore
     },
     {
         name: "Users",

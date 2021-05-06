@@ -13,7 +13,6 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Pictures {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -28,3 +27,4 @@ public class Pictures {
     @ManyToOne(fetch = FetchType.EAGER)
     Places places;
 }
+

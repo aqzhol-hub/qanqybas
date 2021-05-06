@@ -2,35 +2,38 @@ import React, {useState} from "react";
 import {Button, Image, Table} from 'react-bootstrap'
 import { Link } from 'react-router-dom';
 import { RiEditBoxFill, RiDeleteBack2Fill } from "react-icons/ri";
-import CountryAddModal from "./CountryAddModal";
+// import CountryAddModal from "./CountryAddModal";
 import DeleteModal from "../DeleteModal";
+import PlaceAddModal from "./PlaceAddModal";
 
-export default function CountryTable(){
+export default function PlaceTable(){
     const [deleteShow, SetDeleteShow] = useState(false);
     const [addShow, SetAddShow] = useState(false);
 
     return (
         <React.Fragment>
             <Button size="lg" variant="primary" onClick={() => SetAddShow(true)}>
-                Add Country
+                Add Places
             </Button>
             <Table className="mt-3" striped bordered hover>
                 <thead>
                 <tr>
                     <th className="text-center">#</th>
-                    <th className="text-center">Flag</th>
                     <th className="text-center">Name</th>
+                    <th className="text-center">Rating</th>
+                    <th className="text-center">City</th>
                     <th className="text-center" width={'20%'}>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <td className="d-flex justify-content-center">1</td>
-                    <td><Image style={{ maxWidth: 150 }}  className="img-fluid rounded mx-auto d-block" src="https://www.worldometers.info/img/flags/small/tn_kz-flag.gif" /></td>
-                    <td className="d-flex justify-content-center mt-3">Qazastan</td>
+                    <td>1</td>
+                    <td>Kolsay</td>
+                    <td>3.5</td>
+                    <td>Almaty</td>
                     <td>
                         <div className="mt-1 ml-5">
-                            <Link to={`/admin/country/1`} className="btn btn-primary">
+                            <Link to={`/admin/places/1`} className="btn btn-primary">
                                 <RiEditBoxFill />
                             </Link>
                             <Button variant="danger ml-1" onClick={() => SetDeleteShow(true)}>
@@ -41,7 +44,7 @@ export default function CountryTable(){
                 </tr>
                 </tbody>
                 <DeleteModal show={deleteShow} onHide={() => SetDeleteShow(false)}/>
-                <CountryAddModal show={addShow} onHide={() => SetAddShow(false)}/>
+                <PlaceAddModal show={addShow} onHide={() => SetAddShow(false)}/>
             </Table>
         </React.Fragment>
     )
