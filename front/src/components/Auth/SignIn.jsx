@@ -79,7 +79,7 @@ export default function SignIn() {
       <ToastContainer position="top-center" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}></Avatar>
+        <Avatar className={classes.avatar} />
         <Typography component="h1" variant="h5"> Sign in </Typography>
 
         <form onSubmit={handleSubmit} className={classes.form} noValidate>

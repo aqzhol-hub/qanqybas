@@ -15,8 +15,7 @@ export default function Avatar() {
                             <h4>{profile.firstname} {profile.lastname}</h4>
                             <p className="text-secondary mb-1">Full Stack Developer</p>
                             <p className="text-muted font-size-sm">Bay Area, San Francisco, CA</p>
-                            <button className="btn btn-block btn-outline-primary">CHANGE PHOTO</button><tr />
-                            <button className="btn btn-block btn-outline-primary mt-3">SETTINGS</button>
+                            <button className="btn btn-block btn-primary mt-3">Follow</button>
                         </div>
                     </div>
                 </Card.Body>

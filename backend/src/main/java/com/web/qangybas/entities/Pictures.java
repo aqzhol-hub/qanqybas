@@ -18,7 +18,8 @@ public class Pictures {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "url")
+
+    @Column(name = "url", columnDefinition="text", length=10485760)
     String url;
 
     @Column(name="addedDate", columnDefinition="timestamp NOT NULL DEFAULT NOW()", insertable = false, updatable = false)

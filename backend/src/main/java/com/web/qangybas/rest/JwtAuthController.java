@@ -4,7 +4,6 @@ import com.web.qangybas.dto.JwtRequest;
 import com.web.qangybas.dto.JwtResponse;
 import com.web.qangybas.entities.Users;
 import com.web.qangybas.jwt.JWTTokenGenerator;
-import com.web.qangybas.rest.user.userDTO.UserProfileResponse;
 import com.web.qangybas.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

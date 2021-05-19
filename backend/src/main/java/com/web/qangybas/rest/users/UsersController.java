@@ -1,7 +1,6 @@
-package com.web.qangybas.rest.user;
+package com.web.qangybas.rest.users;
 
 import com.web.qangybas.entities.Users;
-import com.web.qangybas.rest.user.userDTO.UserProfileResponse;
 import com.web.qangybas.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(value = "/user")
 @CrossOrigin("*")
-public class UserController {
+public class UsersController {
     @Autowired
     private UserService userService;
 
@@ -24,23 +23,9 @@ public class UserController {
 
     @GetMapping(value = "/profile")
     public ResponseEntity<?> userProfile(@RequestParam(name = "id", defaultValue="") Long id){
-        System.out.println("___------))))))______+_+_)_)+_)+");
         Users authUser = (Users) getCurrentUser();
-        System.out.println(authUser);
+        authUser.setPassword("");
         return ResponseEntity.ok(authUser);
-//        boolean isAuthUser = true;
-//
-//        if (id!=null){
-//            Users otherUser = userService.findByID(id);
-//            assert otherUser!=null;
-//            if (!otherUser.getEmail().equals(authUser.getEmail())){
-//                isAuthUser = false;
-//            }
-//            authUser = otherUser;
-//        }
-//        authUser.setPassword("");
-//
-//        return ResponseEntity.ok(new UserProfileResponse(authUser, isAuthUser));
     }
 
     private UserDetails getCurrentUser(){

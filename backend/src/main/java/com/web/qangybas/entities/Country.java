@@ -17,7 +17,7 @@ public class Country {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "flag")
+    @Column(name = "flag", columnDefinition="text", length=10485760)
     private String logo;
 
     @Column(name = "name")

@@ -1,4 +1,4 @@
-package com.web.qangybas.rest.user.userDTO;
+package com.web.qangybas.rest.users.usersDTO;
 
 import com.web.qangybas.entities.Users;
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserProfileResponse implements Serializable {
+public class UsersProfileResponse implements Serializable {
     private Users user;
     private boolean isAuthUser;
 }

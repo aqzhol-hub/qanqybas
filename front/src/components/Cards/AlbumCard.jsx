@@ -25,26 +25,31 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function AlbumCard(props){
-    const classes = useStyles()
+    const classes = useStyles();
+
+    const handleClick = () => {
+        window.location.replace(`/place/${props.place.id}`);
+    }
+
     return(
         <React.Fragment>
             <Grid item key={props.card} xs={12} sm={6} md={props.md}>
                 <Card className={classes.card}>
                   <CardMedia
                     className={classes.cardMedia}
-                    image="https://source.unsplash.com/random"
+                    image={props.picturesList[0].url}
                     title="Image title"
                   />
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
-                      Heading
+                        {props.place.name}
                     </Typography>
                     <Typography>
-                      This is a media card. You can use this section to describe the content.
+                        {props.place.description}
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small" color="primary">
+                    <Button size="small" color="primary" onClick={handleClick}>
                       View
                     </Button>
                     <Button size="small" color="primary">

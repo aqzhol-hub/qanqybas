@@ -17,7 +17,7 @@ public class City {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "logo")
+    @Column(name = "logo", columnDefinition="text", length=10485760)
     private String logo;
 
     @Column(name = "name")

@@ -1,53 +1,15 @@
-import {Button, Col, Form, Image, Modal, Row} from "react-bootstrap";
-import React, {useState} from "react";
-import { MdCameraAlt } from "react-icons/md";
+import {Button, Col, Form, Image, Modal} from "react-bootstrap";
+import React, {useState, useEffect} from "react";
+import {MdCameraAlt} from "react-icons/md";
 import Select from 'react-select';
-
-const groupedOptions = [
-    { value: 'almaty', label: 'almaty' },
-    { value: 'astana', label: 'astana' },
-    { value: 'taraz', label: 'taraz' }
-];
+import {preAddPlace, AddPlace} from '../../../api/place'
+import { ToastContainer, toast } from "react-toastify";
 
 const groupStyles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
 };
-
-const images = [
-    {
-        url:"https://www.worldometers.info/img/flags/small/tn_af-flag.gif",
-    },
-    {
-        url:"https://www.worldometers.info/img/flags/small/tn_am-flag.gif",
-    },
-    {
-        url:"https://www.worldometers.info/img/flags/small/tn_be-flag.gif",
-    },
-    {
-        url:"https://www.worldometers.info/img/flags/small/tn_bn-flag.gif",
-    },
-    {
-        url:"https://www.worldometers.info/img/flags/small/tn_cn-flag.gif",
-    },
-    {
-        url:"https://www.worldometers.info/img/flags/small/tn_cn-flag.gif",
-    },
-    {
-        url:"https://www.worldometers.info/img/flags/small/tn_cn-flag.gif",
-    },
-    {
-        url:"https://www.worldometers.info/img/flags/small/tn_cn-flag.gif",
-    },
-    {
-        url:"https://www.worldometers.info/img/flags/small/tn_cn-flag.gif",
-    },
-    {
-        url:"https://www.worldometers.info/img/flags/small/tn_cn-flag.gif",
-    },
-
-]
 
 const groupBadgeStyles = {
     backgroundColor: '#EBECF0',
@@ -69,42 +31,110 @@ const formatGroupLabel = data => (
     </div>
 );
 
+const initData = {name: "", description: "", rating: "", tags: [], cityId: "", images: []}
+
 export default function PlaceAddModal(props) {
-    const [images, setImages] = useState([]);
+    const [tagOptions, setTagOptions] = useState([]);
+    const [cityOptions, setCityOptions] = useState([]);
+    const [data, setData] = useState(initData);
+    const [imageLink,setImageLink] = useState({url: ""});
+
+    const handleChangeImage = (e) => {
+        const {name, value} = e.target;
+        setImageLink(prev => ({...prev, [name]: value}))
+    };
+
+    const handleChangeData = (e) => {
+        const {name, value} = e.target;
+        setData(prev => ({...prev, [name]: value}));
+    };
+
+    const handleChangeCity = (selectedOption) => {
+        setData(prev => ({...prev, "cityId": selectedOption.id}));
+    };
+
+    const handleAddImage = () => {
+        data.images.push(imageLink.url);
+        setData(prev => ({...prev, "images": data.images}));
+        setImageLink({url: ""});
+    };
+
+    const handleChangeTag = (selectedOption) => {
+        let tagIdList = [];
+        for (let i = 0; i < selectedOption.length; i++) {
+            tagIdList.push(selectedOption[i].id);
+        }
+        setData(prev => ({...prev, "tags": tagIdList}));
+    };
+
+    const handleSubmit = (e) => {
+        const res = AddPlace(data);
+        res.then((result)=>{
+          if(result.status===200) {
+              toast.success("Success");
+              setData(initData)
+          }
+        }).catch((err)=>{
+            toast.error("UnSuccess");
+        });
+    }
+
+    useEffect(() => {
+        const res = preAddPlace();
+        res.then((result)=>{
+            for (let i = 0; i < result.tagsList.length; i++) {
+                tagOptions.push({
+                    value: result.tagsList[i].name,
+                    label: result.tagsList[i].name,
+                    id: result.tagsList[i].id
+                });
+            }
+            setTagOptions(tagOptions);
+
+            for (let i = 0; i < result.cities.length; i++) {
+                cityOptions.push({
+                    value: result.cities[i].name,
+                    label: result.cities[i].name,
+                    id: result.cities[i].id
+                });
+            }
+            setCityOptions(cityOptions);
+        });
+    }, []);
 
     return (
         <Modal {...props} size="lg" centered>
+            <ToastContainer position="bottom-right" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
                     Add Places
                 </Modal.Title>
             </Modal.Header>
-            <Modal.Body scrollable={true}>
+            <Modal.Body>
                 <Form className="col-md-9 offset-2">
                     <Form.Group controlId="formGridAddress2">
                         <Form.Label>Name</Form.Label>
-                        <Form.Control value="salem" />
+                        <Form.Control required name="name" value={data.name} onChange={handleChangeData} />
                     </Form.Group>
 
                     <Form.Group controlId="formGridAddress1">
                         <Form.Label>Description</Form.Label>
-                        <Form.Control as="textarea" type="text"/>
+                        <Form.Control required name="description" value={data.description} onChange={handleChangeData} as="textarea" type="text"/>
                     </Form.Group>
 
                     <Form.Row>
                         <Form.Group md={3} as={Col} controlId="formGridAddress2">
                             <Form.Label>Rating</Form.Label>
-                            <Form.Control value="salem" />
+                            <Form.Control required name="rating" value={data.rating} onChange={handleChangeData} />
                         </Form.Group>
 
                         <Form.Group md={3} as={Col} controlId="exampleForm.ControlSelect1">
                             <Form.Label>City</Form.Label>
                             <Select
-                                onChange={function () {
-                                    console.log("salas");
-                                }}
-                                defaultValue={{ value: 'almaty', label: 'almaty' }}
-                                options={groupedOptions}
+                                required
+                                name="cityId"
+                                onChange={handleChangeCity}
+                                options={cityOptions}
                                 formatGroupLabel={formatGroupLabel}
                             />
                         </Form.Group>
@@ -112,13 +142,11 @@ export default function PlaceAddModal(props) {
                         <Form.Group md={6} as={Col} controlId="exampleForm.ControlSelect1">
                             <Form.Label>Tags</Form.Label>
                             <Select
+                                required
                                 isMulti
-                                onChange={function () {
-                                    console.log("salas");
-                                }}
-                                defaultValue={{ value: 'almaty', label: 'almaty' }}
-                                options={groupedOptions}
-                                name="colors"
+                                onChange={handleChangeTag}
+                                options={tagOptions}
+                                name="tag"
                                 className="basic-multi-select"
                                 classNamePrefix="select"
                             />
@@ -127,19 +155,19 @@ export default function PlaceAddModal(props) {
 
                     <Form.Row>
                         <Form.Group as={Col} md={9}>
-                            <Form.Label>Rating</Form.Label>
-                            <Form.Control value="salem" />
+                            <Form.Label>Images</Form.Label>
+                            <Form.Control name="url" onChange={handleChangeImage} value={imageLink.url} />
                         </Form.Group>
                         <Form.Group className="mt-4" as={Col} md={3}>
-                            <Button variant="danger" className="btn-block" onClick={props.onHide}><MdCameraAlt /></Button>
+                            <Button onClick={handleAddImage} variant="danger" className="btn-block"><MdCameraAlt /></Button>
                         </Form.Group>
                     </Form.Row>
 
                     <Form.Row>
                         {
-                            images.map((image, index) => (
+                            data.images.map((image, index) => (
                                 <Col className="mt-1" key={index} md={2}>
-                                    <Image style={{ maxWidth: '70px', width: '60px', height: '60px' }} className="img-fluid" src={image.url} />
+                                    <Image style={{ maxWidth: '70px', width: '60px', height: '60px' }} className="img-fluid" src={image} />
                                 </Col>
                             ))
                         }
@@ -147,7 +175,7 @@ export default function PlaceAddModal(props) {
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="success" onClick={props.onHide}>Save</Button>
+                <Button variant="success" onClick={handleSubmit}>Save</Button>
                 <Button onClick={props.onHide}>Close</Button>
             </Modal.Footer>
         </Modal>

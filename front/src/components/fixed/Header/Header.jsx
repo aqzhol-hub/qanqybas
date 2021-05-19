@@ -35,7 +35,7 @@ const Header = () => {
 
     return (
     <Navbar style={navStyle} expand="lg">
-    <Navbar.Brand href="#home">GoDieGo</Navbar.Brand>
+    <Navbar.Brand href="/">Qangybas.kz</Navbar.Brand>
     
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
 
@@ -81,8 +81,8 @@ const Header = () => {
 
             </Dropdown>: 
             <Nav>
-                <Nav.Link href="/login/">Sign In</Nav.Link>
-                <Nav.Link href="/registration/">Sign Up</Nav.Link>
+                <Nav.Link href="/login">Sign In</Nav.Link>
+                <Nav.Link href="/registration">Sign Up</Nav.Link>
             </Nav>
         }
     </Navbar.Collapse>

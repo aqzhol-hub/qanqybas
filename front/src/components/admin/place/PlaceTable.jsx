@@ -1,17 +1,31 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Button, Image, Table} from 'react-bootstrap'
 import { Link } from 'react-router-dom';
 import { RiEditBoxFill, RiDeleteBack2Fill } from "react-icons/ri";
-// import CountryAddModal from "./CountryAddModal";
 import DeleteModal from "../DeleteModal";
 import PlaceAddModal from "./PlaceAddModal";
+import {AllPlaces} from '../../../api/place'
+import { ToastContainer, toast } from "react-toastify";
+
 
 export default function PlaceTable(){
+    const [tableData, setTableData] = useState([]);
     const [deleteShow, SetDeleteShow] = useState(false);
     const [addShow, SetAddShow] = useState(false);
 
+    useEffect(() => {
+        const  res = AllPlaces();
+        res.then((result)=>{
+            console.log(result.data);
+            setTableData(result.data);
+        }).catch((err)=>{
+            toast.error("UnSuccess to load table");
+        });
+        },[]);
+
     return (
         <React.Fragment>
+            <ToastContainer position="bottom-right" autoClose={3000} hideProgressBar newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
             <Button size="lg" variant="primary" onClick={() => SetAddShow(true)}>
                 Add Places
             </Button>
@@ -26,22 +40,28 @@ export default function PlaceTable(){
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Kolsay</td>
-                    <td>3.5</td>
-                    <td>Almaty</td>
-                    <td>
-                        <div className="mt-1 ml-5">
-                            <Link to={`/admin/places/1`} className="btn btn-primary">
-                                <RiEditBoxFill />
-                            </Link>
-                            <Button variant="danger ml-1" onClick={() => SetDeleteShow(true)}>
-                                <RiDeleteBack2Fill />
-                            </Button>
-                        </div>
-                    </td>
-                </tr>
+
+                {
+                    tableData.map((data, index)=>(
+                        <tr>
+                            <td>{data.id}</td>
+                            <td>{data.name}</td>
+                            <td>{data.rating}</td>
+                            <td>{data.city.name}</td>
+                            <td>
+                                <div className="mt-1 ml-5">
+                                    <Link to={`/admin/places/${data.id}`} className="btn btn-primary">
+                                        <RiEditBoxFill />
+                                    </Link>
+                                    <Button variant="danger ml-1" onClick={() => SetDeleteShow(true)}>
+                                        <RiDeleteBack2Fill key={data.id}/>
+                                    </Button>
+                                </div>
+                            </td>
+                        </tr>
+                    ))
+                }
+
                 </tbody>
                 <DeleteModal show={deleteShow} onHide={() => SetDeleteShow(false)}/>
                 <PlaceAddModal show={addShow} onHide={() => SetAddShow(false)}/>

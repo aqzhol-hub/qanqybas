@@ -27,7 +27,7 @@ public class Places implements Serializable {
     private String description;
 
     @Column(name = "rating")
-    private String rating;
+    private Double rating;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Tags> tags;
