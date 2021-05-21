@@ -4,6 +4,7 @@ import com.web.qangybas.entities.Roles;
 import com.web.qangybas.entities.Users;
 import com.web.qangybas.repositories.RoleRepository;
 import com.web.qangybas.repositories.UserRepository;
+import com.web.qangybas.rest.users.usersDTO.ChangePasswordRequest;
 import com.web.qangybas.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -36,6 +37,7 @@ public class UserServiceImplementation implements UserService {
         }
     }
 
+
     @Override
     public Users saveUser(Users user) {
         Roles role = roleRepository.findByName("ROLE_USER");
@@ -56,5 +58,15 @@ public class UserServiceImplementation implements UserService {
     @Override
     public Users findByID(Long id) {
         return userRepository.findByIdEquals(id);
+    }
+
+    @Override
+    public Users updatePassword(Users users, ChangePasswordRequest changePasswordRequest) {
+        if(passwordEncoder.matches(changePasswordRequest.getOldPassword(), changePasswordRequest.getNewPassword())) {
+            String newPassword = passwordEncoder.encode(changePasswordRequest.getNewPassword());
+            users.setPassword(newPassword);
+            return userRepository.save(users);
+        }
+        return null;
     }
 }

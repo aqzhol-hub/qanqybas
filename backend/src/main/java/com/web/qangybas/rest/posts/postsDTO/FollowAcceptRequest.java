@@ -10,6 +10,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FollowAcceptRequest implements Serializable {
-    private Long userId;
+    private Long followerId;
     private Long postId;
 }

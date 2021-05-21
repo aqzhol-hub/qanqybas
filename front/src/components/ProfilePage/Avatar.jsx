@@ -10,12 +10,12 @@ export default function Avatar() {
             <Card>
                 <Card.Body>
                     <div className="d-flex flex-column align-items-center text-center">
-                        <Card.Img src="https://source.unsplash.com/random" className="rounded-circle w-50 h-50"/>
+                        <Card.Img src="https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png" className="rounded-circle w-50 h-50"/>
                         <div className="mt-3">
                             <h4>{profile.firstname} {profile.lastname}</h4>
                             <p className="text-secondary mb-1">Full Stack Developer</p>
                             <p className="text-muted font-size-sm">Bay Area, San Francisco, CA</p>
-                            <button className="btn btn-block btn-primary mt-3">Follow</button>
+                            <button className="btn btn-block btn-primary mt-3">Settings</button>
                         </div>
                     </div>
                 </Card.Body>

@@ -1,9 +1,9 @@
 import {useParams} from "react-router";
 import {Button, Card, Carousel, Col, Image, Row} from "react-bootstrap";
-import React, {useEffect, useState} from "react";
+import React, {Component, useEffect, useState} from "react";
 import {AllPlaces, PlacesById, preAddPlace} from "../../api/place";
 import {toast} from "react-toastify";
-
+import ReactHtmlParser from 'react-html-parser';
 
 function ControlledCarousel({picturesList}) {
     const [index, setIndex] = useState(0);
@@ -54,7 +54,7 @@ export default function PlaceView(){
                         <h2 className="text-center">{tableData.place.name}</h2>
                         <Card.Body>
                             <ControlledCarousel picturesList={tableData.picturesList} />
-                            <h2 className="mt-3 text-center">{tableData.place.description}</h2>
+                            <h6 className="mt-5 text-center">{ReactHtmlParser(tableData.place.description)}</h6>
                         </Card.Body>
                     </Card>:
                     <tr />

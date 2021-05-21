@@ -42,9 +42,6 @@ public class Users implements UserDetails {
     @Column(name = "gender")
     private String gender;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    City city;
-
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Roles> roles;
 

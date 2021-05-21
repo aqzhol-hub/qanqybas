@@ -30,7 +30,7 @@ export default function ChangeUserInfo() {
                                 required
                                 type="text"
                                 placeholder="First name"
-                                defaultValue="Mark"
+                                // defaultValue="Mark"
                             />
                             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                         </Form.Group>
@@ -40,7 +40,7 @@ export default function ChangeUserInfo() {
                                 required
                                 type="text"
                                 placeholder="Last name"
-                                defaultValue="Otto"
+                                // defaultValue="Otto"
                             />
                             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                         </Form.Group>
@@ -54,7 +54,7 @@ export default function ChangeUserInfo() {
                                 <Form.Control
                                     disabled
                                     type="email"
-                                    placeholder="email@example.com"
+                                    // placeholder="email@example.com"
                                     aria-describedby="inputGroupPrepend"
                                     required
                                 />

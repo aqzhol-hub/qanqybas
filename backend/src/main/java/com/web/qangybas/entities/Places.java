@@ -23,7 +23,7 @@ public class Places implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition="text", length=10485760)
     private String description;
 
     @Column(name = "rating")

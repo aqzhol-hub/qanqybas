@@ -9,6 +9,8 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 import { makeStyles } from '@material-ui/core/styles';
+import ReactHtmlParser from 'react-html-parser';
+
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -31,6 +33,10 @@ export default function AlbumCard(props){
         window.location.replace(`/place/${props.place.id}`);
     }
 
+    const handleClickO = () => {
+        window.location.replace(`/postsList/${props.place.id}`);
+    }
+
     return(
         <React.Fragment>
             <Grid item key={props.card} xs={12} sm={6} md={props.md}>
@@ -45,16 +51,16 @@ export default function AlbumCard(props){
                         {props.place.name}
                     </Typography>
                     <Typography>
-                        {props.place.description}
+                        {ReactHtmlParser(props.place.description)}
                     </Typography>
                   </CardContent>
                   <CardActions>
                     <Button size="small" color="primary" onClick={handleClick}>
                       View
                     </Button>
-                    <Button size="small" color="primary">
-                      Edit
-                    </Button>
+                  <Button size="small" color="primary" onClick={handleClickO}>
+                      POSTS
+                  </Button>
                   </CardActions>
                 </Card>
             </Grid>

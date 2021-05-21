@@ -5,6 +5,9 @@ import UserProfile from './profilepage/Profile'
 import UserSettings from './settingspage/Settings'
 import ResponsiveDrawer from "./admin/AdminPage";
 import PlaceView from "./tours/PlaceView";
+import PostList from "./posts/PostList";
+import PostPage from "./posts/PostPage";
+import PostRequest from "./posts/PostRequest";
 
 const routes = [
     {
@@ -48,6 +51,24 @@ const routes = [
         exact: true,
         strict: true,
         component: PlaceView
+    },
+    {
+        path: "/postsList/:placeId",
+        exact: true,
+        strict: true,
+        component: PostList
+    },
+    {
+        path: "/post/:postId",
+        exact: true,
+        strict: true,
+        component: PostPage
+    },
+    {
+        path: "/postRequest",
+        exact: true,
+        strict: true,
+        component: PostRequest
     }
 ]
 export default routes;

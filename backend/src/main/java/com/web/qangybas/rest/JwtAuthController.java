@@ -55,9 +55,9 @@ public class JwtAuthController {
     public ResponseEntity<?> checkAuth() throws Exception{
         UserDetails user = getCurrentUser();
         if (user!=null){
-            return ResponseEntity.ok(200);
+            return ResponseEntity.ok(user);
         }
-        return (ResponseEntity<?>) ResponseEntity.notFound();
+        return ResponseEntity.ok(400);
     }
 
     public void authenticate(String email, String password) throws Exception{

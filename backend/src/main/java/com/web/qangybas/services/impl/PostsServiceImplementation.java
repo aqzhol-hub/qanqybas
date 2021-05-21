@@ -1,6 +1,7 @@
 package com.web.qangybas.services.impl;
 
 import com.web.qangybas.entities.Posts;
+import com.web.qangybas.entities.Users;
 import com.web.qangybas.repositories.PostsRepository;
 import com.web.qangybas.services.PostsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,17 @@ public class PostsServiceImplementation implements PostsService {
     }
 
     @Override
+    public List<Posts> findByAuthor(Users author) {
+        return repository.findAllByAuthorEqualsAndUserRequestsNotNull(author);
+    }
+
+    @Override
     public List<Posts> findAll() {
         return repository.findAll();
+    }
+
+    @Override
+    public List<Posts> findByPlace(Long id) {
+        return repository.findAllByPlaces_Id(id);
     }
 }

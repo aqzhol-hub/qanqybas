@@ -70,7 +70,7 @@ export default function SignIn() {
 
   useEffect(() => {
     if(isAuth){
-      window.history.back();
+      // window.history.back();
     }
   }, [isAuth]);
 

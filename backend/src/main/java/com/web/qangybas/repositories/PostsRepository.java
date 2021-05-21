@@ -14,5 +14,6 @@ import java.util.Set;
 @Transactional
 public interface PostsRepository  extends JpaRepository<Posts, Long> {
     Posts findByIdEquals(Long id);
-    List<Posts> findAllByAuthorEquals(Users author);
+    List<Posts> findAllByAuthorEqualsAndUserRequestsNotNull(Users author);
+    List<Posts> findAllByPlaces_Id(Long id);
 }

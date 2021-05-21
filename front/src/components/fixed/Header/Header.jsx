@@ -1,13 +1,15 @@
-import React, { useContext, useEffect } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {  Navbar, Nav, NavDropdown, Dropdown } from 'react-bootstrap';
 import { AuthContext } from "../../../App";
 import {checkAuth} from '../../../api/login';
 
 import { BiUserCircle } from "react-icons/bi";
+import {getRoles} from "../../../api/user";
 
 
 const Header = () => {
     const {cookies, removeCookie, isAuth, SetAuth} = useContext(AuthContext);
+    const [isAdmin, setAdmin] = useState(false);
 
     useEffect(() => {
         const jwtToken = cookies.jwtToken;
@@ -21,6 +23,17 @@ const Header = () => {
         }else{
             SetAuth(false);
         }
+
+        const res = getRoles(jwtToken);
+        res.then((result)=>{
+            if (result.status===200){
+                setAdmin(true);
+            }
+        }).catch((err)=>{
+            console.log(err);
+            // window.history.back();
+        });
+
     }, [cookies, SetAuth]);
 
     const navStyle = {
@@ -50,23 +63,30 @@ const Header = () => {
 
         <Nav className="mr-auto ml-auto">
             <NavDropdown title="Posters" id="basic-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+                {/*<NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>*/}
+                {/*<NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>*/}
+                {/*<NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>*/}
             </NavDropdown>
 
             <NavDropdown title="Places" id="basic-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+                {/*<NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>*/}
+                {/*<NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>*/}
+                {/*<NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>*/}
             </NavDropdown>
 
             <NavDropdown title="Magazine" id="basic-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+                {/*<NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>*/}
+                {/*<NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>*/}
+                {/*<NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>*/}
             </NavDropdown>
         </Nav>
+
+        {
+            isAdmin === true ?
+            <Nav>
+                <Nav.Link href="/admin">Admin</Nav.Link>
+            </Nav>:<tr />
+        }
         
         {
             isAuth === true ?
@@ -76,6 +96,7 @@ const Header = () => {
                 <Dropdown.Menu alignRight={true}>
                     <Dropdown.Item href="/profile">Profile</Dropdown.Item>
                     <Dropdown.Item href="/settings">Settings</Dropdown.Item>
+                    <Dropdown.Item href="/postRequest">Travel requests</Dropdown.Item>
                     <Dropdown.Item onClick={logOut}>Log out</Dropdown.Item>
                 </Dropdown.Menu>
 

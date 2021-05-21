@@ -1,9 +1,13 @@
 import {Button, Col, Form, Image, Modal} from "react-bootstrap";
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef, useContext} from "react";
 import {MdCameraAlt} from "react-icons/md";
 import Select from 'react-select';
 import {preAddPlace, AddPlace} from '../../../api/place'
 import { ToastContainer, toast } from "react-toastify";
+
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import {AuthContext} from "../../../App";
 
 const groupStyles = {
     display: 'flex',
@@ -71,8 +75,8 @@ export default function PlaceAddModal(props) {
         const res = AddPlace(data);
         res.then((result)=>{
           if(result.status===200) {
+              setData(initData);
               toast.success("Success");
-              setData(initData)
           }
         }).catch((err)=>{
             toast.error("UnSuccess");
@@ -119,7 +123,24 @@ export default function PlaceAddModal(props) {
 
                     <Form.Group controlId="formGridAddress1">
                         <Form.Label>Description</Form.Label>
-                        <Form.Control required name="description" value={data.description} onChange={handleChangeData} as="textarea" type="text"/>
+                        <CKEditor
+                            editor={ ClassicEditor }
+                            data={data.description}
+                            onReady={ editor => {
+                                console.log( 'Editor is ready to use!', editor );
+                            } }
+                            onChange={ ( event, editor ) => {
+                                const data = editor.getData();
+                                setData(prev => ({...prev,"description": data}))
+                                console.log( { event, editor, data } );
+                            } }
+                            onBlur={ ( event, editor ) => {
+                                console.log( 'Blur.', editor );
+                            } }
+                            onFocus={ ( event, editor ) => {
+                                console.log( 'Focus.', editor );
+                            } }
+                        />
                     </Form.Group>
 
                     <Form.Row>
